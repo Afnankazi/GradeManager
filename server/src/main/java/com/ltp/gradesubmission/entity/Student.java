@@ -26,7 +26,7 @@ import lombok.*;
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "student")
 @Table(name = "student")
 public class Student {
 

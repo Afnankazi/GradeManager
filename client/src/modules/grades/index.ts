@@ -23,7 +23,7 @@ const fetch_grade_records = async (): Promise<any> => {
 
     return { data, response };
   } catch (error) {
-    toast.error("Internal server error", { id: "internal_server_error" });
+    // toast.error("Internal server error", { id: "internal_server_error" });
     throw error;
   }
 };
@@ -49,7 +49,7 @@ const fetch_grade_records_by_student_id = async (id: number): Promise<any> => {
 
     return { data, response };
   } catch (error) {
-    toast.error("Internal server error", { id: "internal_server_error" });
+    // toast.error("Internal server error", { id: "internal_server_error" });
     throw error;
   }
 };
@@ -75,7 +75,7 @@ const fetch_grade_records_by_course_id = async (id: number): Promise<any> => {
 
     return { grade_record: data, grade_record_response: response };
   } catch (error) {
-    toast.error("Internal server error", { id: "internal_server_error" });
+    // toast.error("Internal server error", { id: "internal_server_error" });
     throw error;
   }
 };
@@ -112,7 +112,7 @@ const delete_grade_record = async (
 
     return response;
   } catch (error) {
-    toast.error("Internal server error", { id: "internal_server_error" });
+    // toast.error("Internal server error", { id: "internal_server_error" });
     throw error;
   }
 };
@@ -143,7 +143,7 @@ const create_grade_record = async (
 
     return data;
   } catch (error) {
-    toast.error("Internal server error", { id: "internal_server_error" });
+    // toast.error("Internal server error", { id: "internal_server_error" });
     throw error;
   }
 };
@@ -171,7 +171,7 @@ const edit_grade_record = async (
     // @ts-ignore
     await fetch(api_url, options);
   } catch (error) {
-    toast.error("Internal server error", { id: "internal_server_error" });
+    // toast.error("Internal server error", { id: "internal_server_error" });
     throw error;
   }
 };

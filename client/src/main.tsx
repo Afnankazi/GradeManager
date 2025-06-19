@@ -1,6 +1,7 @@
 // React's Imports
-import { StrictMode } from "react";
+import { StrictMode, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+
 
 // App's Internal Imports
 import {
@@ -18,45 +19,108 @@ import { Header, Footer } from "./components";
 // App's External Imports
 import { Toaster } from "react-hot-toast";
 import NextTopLoader from "nextjs-toploader";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import {useAuth,AuthProvider} from "./routes/AuthProvider"
+import Login from "./routes/Login";
+ 
+const Main = () => {
+    const {isAuth ,  loading} = useAuth();
+    if (loading) {
+  return <div className="loader"></div>; // or your spinner component
+}
+    return(
+      <>
+    <NextTopLoader color="#7E22CE" showSpinner={false} />
+    {isAuth && <Header />}
+    <Toaster reverseOrder={false} position="top-center" />
+    <RouterProvider router={router} />
+    {isAuth && <Footer />}
+    </>
+    )
+}
+export default Main
+
+const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+  const { isAuth , loading  } = useAuth();
+   if (loading) {
+  return <div className="loader"></div>; 
+  }
+  return isAuth ? children : <Navigate to="/" replace />;
+};
+
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
+    path:"/",
+    element:<Login/>
+
+  },
+  {
+    path: "/home",
+    element:(
+      <PrivateRoute>
+          <Home />
+      </PrivateRoute>
+    
+  )
   },
   {
     path: "/:id",
-    element: <StudentDetails />,
+    element: (
+       <PrivateRoute>
+        <StudentDetails />
+      </PrivateRoute>
+    
+  )
   },
   {
     path: "/courses",
-    element: <Courses />,
+    element:( 
+      <PrivateRoute>
+          <Courses />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/courses/:id",
-    element: <CourseDetails />,
+    element:(
+      <PrivateRoute>
+          <CourseDetails />
+      </PrivateRoute> 
+    ),
   },
   {
     path: "/grades",
-    element: <Grades />,
+    element: (
+    <PrivateRoute>
+        <Grades />
+    </PrivateRoute>
+
+  ),
   },
   {
     path: "/report/student/:id",
-    element: <StudentReport />,
+    element: (
+    <PrivateRoute>
+        <StudentReport />
+    </PrivateRoute>
+   ),
   },
   {
     path: "/report/course/:id",
-    element: <CourseReport />,
+    element: (
+      <PrivateRoute>
+          <CourseReport />
+      </PrivateRoute>
+
+  ),
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <NextTopLoader color="#7E22CE" showSpinner={false} />
-    <Header />
-    <Toaster reverseOrder={false} position="top-center" />
-    <RouterProvider router={router} />
-    <Footer />
+    <AuthProvider>
+       <Main/>
+    </AuthProvider>
   </StrictMode>
 );

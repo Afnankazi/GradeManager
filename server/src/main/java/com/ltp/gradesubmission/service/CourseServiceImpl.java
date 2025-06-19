@@ -30,13 +30,15 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course saveCourse(Course course) {
-        return courseRepository.save(course);
+       return courseRepository.save(course);
+    
+   
     }
 
     @Override
     public void deleteCourse(Long id) {  
-        courseRepository.deleteById(id);      
-    }
+        courseRepository.deleteById(id);
+        }
 
     @Override
     public List<Course> getCourses() {

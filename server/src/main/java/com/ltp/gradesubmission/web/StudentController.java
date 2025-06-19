@@ -1,10 +1,14 @@
 package com.ltp.gradesubmission.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
-
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +32,17 @@ import lombok.AllArgsConstructor;
 public class StudentController {
 
     StudentService studentService;
+
+
+    @GetMapping("/user")
+    public Map<String, Object> userInfo(@AuthenticationPrincipal Jwt jwt) {
+        System.out.println(jwt.getExpiresAt());
+        Map<String, Object> response = new HashMap<>();
+        response.put("email", jwt.getClaimAsString("email"));
+        response.put("name", jwt.getClaimAsString("name"));
+        System.out.println(response);
+        return response;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable Long id) {

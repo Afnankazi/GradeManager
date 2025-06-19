@@ -25,9 +25,15 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/course")
 public class CourseController {
-
+    
     CourseService courseService;
 
+    /**
+     * Get a course by its id.
+     *
+     * @param id the course's id
+     * @return a course with the given id
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourse(@PathVariable Long id) {
         return new ResponseEntity<>(courseService.getCourse(id), HttpStatus.OK);
